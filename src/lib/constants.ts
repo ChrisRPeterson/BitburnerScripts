@@ -1,7 +1,7 @@
 // ! INDICATES THE CURRENT TARGET
-export const TARGET = "joesguns";
+export const TARGET = "iron-gym";
 
-export const MAX_PORTS_REQUIRED = 2;
+export const MAX_PORTS_REQUIRED = 4;
 
 // Host Names
 export const HOME_HOST = "home";
@@ -24,3 +24,5 @@ export const OMNI_HACK_PATH = "/scripts/omni-hack.js";
 // Program Paths
 export const BRUTESSH_PATH = "BruteSSH.exe";
 export const FTPCRACK_PATH = "FTPCrack.exe";
+export const RELAYSMTP_PATH = "relaySMTP.exe";
+export const HTTPWORM_PATH = "HTTPWorm.exe";
