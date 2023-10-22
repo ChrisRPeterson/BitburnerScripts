@@ -1,5 +1,13 @@
 import { NS } from "@ns";
-import { HOME_HOST, OMNI_HACK_PATH, TARGET } from "lib/constants";
+import {
+  BRUTESSH_PATH,
+  FTPCRACK_PATH,
+  HOME_HOST,
+  HTTPWORM_PATH,
+  OMNI_HACK_PATH,
+  RELAYSMTP_PATH,
+  TARGET,
+} from "lib/constants";
 
 // An adaptation of this script:
 // https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html#creating-our-first-script
@@ -42,12 +50,35 @@ export async function copyScripts(
 }
 
 export function startOmniHack(ns: NS, host: string) {
-  const threads = Math.floor(
-    ns.getServerMaxRam(host) / ns.getScriptRam(OMNI_HACK_PATH)
-  );
+  const maxRam = ns.getServerMaxRam(host);
+  const availableRam = maxRam - ns.getServerUsedRam(host);
+  const scriptRam = ns.getScriptRam(OMNI_HACK_PATH);
+  const threads = Math.floor(availableRam / scriptRam);
   if (threads <= 0) {
-    ns.print(`ERROR: ${host} could not start due to insufficient RAM.`);
+    ns.tprint(
+      `WARNING: ${host} could not start due to insufficient RAM. Max: ${maxRam}, Available: ${availableRam}, Required: ${scriptRam}.`
+    );
     return;
   }
   ns.exec(OMNI_HACK_PATH, host, { threads }, TARGET);
+}
+
+export function getRootAccess(ns: NS, host: string) {
+  if (ns.fileExists(BRUTESSH_PATH)) {
+    ns.brutessh(host);
+  }
+
+  if (ns.fileExists(FTPCRACK_PATH)) {
+    ns.ftpcrack(host);
+  }
+
+  if (ns.fileExists(RELAYSMTP_PATH)) {
+    ns.relaysmtp(host);
+  }
+
+  if (ns.fileExists(HTTPWORM_PATH)) {
+    ns.httpworm(host);
+  }
+
+  ns.nuke(host);
 }

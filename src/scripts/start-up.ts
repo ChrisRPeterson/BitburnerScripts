@@ -1,15 +1,19 @@
 import { NS } from "@ns";
-import {
-  BRUTESSH_PATH,
-  FTPCRACK_PATH,
-  MAX_PORTS_REQUIRED,
-  OMNI_HACK_PATH,
-} from "/lib/constants";
-import { copyScripts, startOmniHack } from "/lib/helpers";
+import { MAX_PORTS_REQUIRED, OMNI_HACK_PATH } from "/lib/constants";
+import { copyScripts, getRootAccess, startOmniHack } from "/lib/helpers";
 
 const initializedHosts: string[] = [];
 
 export async function main(ns: NS): Promise<void> {
+  const disableLogFunctions = [
+    "scp",
+    "getServerNumPortsRequired",
+    "getServerMaxRam",
+    "scan",
+  ];
+  disableLogFunctions.forEach((func) => {
+    ns.disableLog(func);
+  });
   startPservs(ns);
   initAllNeighborHosts(ns, ns.getHostname());
 }
@@ -27,22 +31,19 @@ function initAllNeighborHosts(ns: NS, initialHost: string) {
     return;
   }
 
-  if (ns.getServerNumPortsRequired(initialHost) > MAX_PORTS_REQUIRED) {
+  if (
+    ns.getServerNumPortsRequired(initialHost) > MAX_PORTS_REQUIRED &&
+    initialHost !== "home"
+  ) {
     ns.tprint(
       `WARN: ${initialHost} could not initialize because we cannot open enough ports. Required: ${ns.getServerNumPortsRequired(
         initialHost
       )}, Actual: ${MAX_PORTS_REQUIRED}`
     );
   } else {
-    if (ns.fileExists(BRUTESSH_PATH)) {
-      ns.brutessh(initialHost);
+    if (!ns.hasRootAccess(initialHost)) {
+      getRootAccess(ns, initialHost);
     }
-
-    if (ns.fileExists(FTPCRACK_PATH)) {
-      ns.ftpcrack(initialHost);
-    }
-
-    ns.nuke(initialHost);
     copyScripts(ns, initialHost);
     startOmniHack(ns, initialHost);
     ns.tprint(`SUCCESS: ${initialHost} is running the script.`);
