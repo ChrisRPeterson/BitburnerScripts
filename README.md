@@ -1,4 +1,4 @@
-# Typescript template for Bitburner's Remote File API
+# Typescript template for Bitburner's Remote File API - Christian's Edition
 
 The official template for synchronizing Typescript/Javascript from your computer to the game.
 
@@ -7,6 +7,12 @@ The official template for synchronizing Typescript/Javascript from your computer
 [Docker install guide](DockerGuide.md) (optional) 
 
 [Learn more about Typescript](https://www.typescriptlang.org/docs/)
+
+## Note from Christian
+
+These are my automation scripts for BitBurner. Check out src/lib and src/scripts to see my additions.
+
+src/scripts/start-up.ts is a good initial script, many of the rest are helper files or utility scripts.
 
 ## About
 
