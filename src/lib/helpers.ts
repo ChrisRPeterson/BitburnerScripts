@@ -1,22 +1,11 @@
 import { NS } from "@ns";
-import {
-  BRUTESSH_PATH,
-  HOME_HOST,
-  OMNI_HACK_PATH,
-  TARGET,
-} from "lib/constants";
+import { HOME_HOST, OMNI_HACK_PATH, TARGET } from "lib/constants";
 
 // An adaptation of this script:
 // https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html#creating-our-first-script
 export function omniHack(ns: NS, target: string) {
   const MONEY_THRESH = ns.getServerMaxMoney(target) * 0.75;
   const SECURITY_THRESH = ns.getServerMinSecurityLevel(target) + 5;
-
-  if (ns.fileExists(BRUTESSH_PATH, HOME_HOST)) {
-    ns.brutessh(target);
-  }
-
-  ns.nuke(target);
 
   for (;;) {
     if (ns.getServerSecurityLevel(target) > SECURITY_THRESH) {
