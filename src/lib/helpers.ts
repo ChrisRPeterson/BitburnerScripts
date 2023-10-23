@@ -6,6 +6,7 @@ import {
   HTTPWORM_PATH,
   OMNI_HACK_PATH,
   RELAYSMTP_PATH,
+  SQLINJECT_PATH,
   TARGET,
 } from "lib/constants";
 
@@ -80,5 +81,34 @@ export function getRootAccess(ns: NS, host: string) {
     ns.httpworm(host);
   }
 
+  if (ns.fileExists(SQLINJECT_PATH)) {
+    ns.sqlinject(host);
+  }
+
   ns.nuke(host);
+}
+
+export function getCurrentHackLevel(ns: NS) {
+  let hackLevel = 0;
+  if (ns.fileExists(BRUTESSH_PATH)) {
+    hackLevel += 1;
+  }
+
+  if (ns.fileExists(FTPCRACK_PATH)) {
+    hackLevel += 1;
+  }
+
+  if (ns.fileExists(RELAYSMTP_PATH)) {
+    hackLevel += 1;
+  }
+
+  if (ns.fileExists(HTTPWORM_PATH)) {
+    hackLevel += 1;
+  }
+
+  if (ns.fileExists(SQLINJECT_PATH)) {
+    hackLevel += 1;
+  }
+
+  return hackLevel;
 }

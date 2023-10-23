@@ -1,6 +1,11 @@
 import { NS } from "@ns";
-import { MAX_PORTS_REQUIRED, OMNI_HACK_PATH } from "/lib/constants";
-import { copyScripts, getRootAccess, startOmniHack } from "/lib/helpers";
+import { OMNI_HACK_PATH } from "/lib/constants";
+import {
+  copyScripts,
+  getCurrentHackLevel,
+  getRootAccess,
+  startOmniHack,
+} from "/lib/helpers";
 
 const initializedHosts: string[] = [];
 
@@ -32,13 +37,13 @@ function initAllNeighborHosts(ns: NS, initialHost: string) {
   }
 
   if (
-    ns.getServerNumPortsRequired(initialHost) > MAX_PORTS_REQUIRED &&
+    ns.getServerNumPortsRequired(initialHost) > getCurrentHackLevel(ns) &&
     initialHost !== "home"
   ) {
     ns.tprint(
       `WARN: ${initialHost} could not initialize because we cannot open enough ports. Required: ${ns.getServerNumPortsRequired(
         initialHost
-      )}, Actual: ${MAX_PORTS_REQUIRED}`
+      )}, Actual: ${getCurrentHackLevel(ns)}`
     );
   } else {
     if (!ns.hasRootAccess(initialHost)) {
