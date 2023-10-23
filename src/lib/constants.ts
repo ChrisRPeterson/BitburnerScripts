@@ -1,19 +1,8 @@
 // ! INDICATES THE CURRENT TARGET
-export const TARGET = "iron-gym";
-
-export const MAX_PORTS_REQUIRED = 4;
+export const TARGET = "phantasy";
 
 // Host Names
 export const HOME_HOST = "home";
-export const LEVEL_0_HOSTS = [
-  "n00dles",
-  "foodnstuff",
-  "sigma-cosmetics",
-  "joesguns",
-  "hong-fang-tea",
-  "harakiri-sushi",
-];
-export const LEVEL_1_HOSTS = ["iron-gym"];
 
 // Script Paths
 export const C_HACK_SCRIPT_PATH = "/scripts/c-hack.js";
@@ -26,3 +15,4 @@ export const BRUTESSH_PATH = "BruteSSH.exe";
 export const FTPCRACK_PATH = "FTPCrack.exe";
 export const RELAYSMTP_PATH = "relaySMTP.exe";
 export const HTTPWORM_PATH = "HTTPWorm.exe";
+export const SQLINJECT_PATH = "SQLInject.exe";
